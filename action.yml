@@ -1,0 +1,30 @@
+name: "Clone SEE"
+description: "Clones SEE, including LFS."
+inputs:
+  fetch-depth:
+    description: "How many prior commits to retrieve. Set to 0 to retrieve full history."
+    required: true
+    default: "1"
+  lfs-token:
+    description: "Token for the GitLab LFS repository."
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Setup GitLab LFS
+      shell: bash
+      run: |
+        echo "$CREDENTIALS" > ~/.git-credentials
+        git config --global credential.helper store || true
+        git config --global lfs.url "${CREDENTIALS}project-see/see-lfs.git/info/lfs" || true
+      env:
+        # NOTE: must be of the form https://koschke:token-here@gitlab.informatik.uni-bremen.de/
+        CREDENTIALS: ${{ inputs.lfs-token }}
+    - uses: actions/checkout@v4
+      name: Checkout Repository
+      with:
+        lfs: true
+        fetch-depth: ${{ inputs.fetch-depth }}
+    - name: Confirm LFS pull
+      shell: bash
+      run: git lfs pull
