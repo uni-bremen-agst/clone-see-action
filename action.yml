@@ -25,6 +25,7 @@ runs:
       with:
         lfs: true
         fetch-depth: ${{ inputs.fetch-depth }}
+        clean: false
     - name: Confirm LFS pull
       shell: bash
       run: git lfs pull
