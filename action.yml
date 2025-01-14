@@ -30,17 +30,3 @@ runs:
     - name: Confirm LFS pull
       shell: bash
       run: git lfs pull
-    - uses: actions/cache@v4
-      name: Cache Library
-      env:
-        SEGMENT_DOWNLOAD_TIMEOUT_MINS: 11
-      with:
-        path: |
-          ./Library
-          ./Assets/Packages
-          ./*.csproj
-          ./*.sln
-        key: SEE-Tests-${{ hashFiles('./ProjectSettings/ProjectVersion.txt') }}
-        restore-keys: |
-          SEE-Tests
-          SEE
