@@ -25,7 +25,7 @@ runs:
       with:
         lfs: true
         fetch-depth: ${{ inputs.fetch-depth }}
-        clean: false
+        clean: ${{ github.ref == 'refs/heads/master' }}
     - name: Confirm LFS pull
       shell: bash
       run: git lfs pull
