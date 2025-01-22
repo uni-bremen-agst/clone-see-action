@@ -11,6 +11,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    # If we don't do this, Unity might complain about multiple instances opening the same project.
+    - name: Clear Temp Folder
+      shell: bash
+      run: |
+        rm -rf Temp || true
     - name: Setup GitLab LFS
       shell: bash
       run: |
